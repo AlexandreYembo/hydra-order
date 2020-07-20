@@ -25,11 +25,33 @@ namespace Hydra.Order.Domain.Models
 
         private void CalculateOrderAmount() => Amount = OrderItems.Sum(i => i.CalculateAmount());
         
+        private bool HasOrderItem(OrderItem orderItem) => _orderItems.Any(a => a.ProductId == orderItem.ProductId);
+
+        private void ExistingItemValidate(OrderItem item)
+        {
+            if(!HasOrderItem(item)) throw new DomainException("Item does not exist");
+        }
+
+        private void ValidItemQtyAllowed(OrderItem item)
+        {
+            var qtyItems = item.Qty;
+            if(HasOrderItem(item))
+            {
+                var existingItem = _orderItems.FirstOrDefault( p => p.ProductId == item.ProductId);
+                qtyItems += existingItem.Qty;
+            }
+
+            if(qtyItems > MAX_QTY_PER_ITEM) throw new DomainException($"Maximum {MAX_QTY_PER_ITEM} per item");
+        }
+
         public void AddItem(OrderItem orderItem)
         {
-            if(_orderItems.Any(a => a.ProductId == orderItem.ProductId))
+            ValidItemQtyAllowed(orderItem);
+
+            if(HasOrderItem(orderItem))
             {
                 var existingItem = _orderItems.FirstOrDefault( p => p.ProductId == orderItem.ProductId);
+
                 existingItem.AddQty(orderItem.Qty);
                 orderItem = existingItem;
                 _orderItems.Remove(existingItem);
@@ -38,6 +60,18 @@ namespace Hydra.Order.Domain.Models
            _orderItems.Add(orderItem);
 
            CalculateOrderAmount();
+        }
+
+        public void UpdateItem(OrderItem orderItem)
+        {
+            ExistingItemValidate(orderItem);
+            ValidItemQtyAllowed(orderItem);
+
+            var existingItem = OrderItems.FirstOrDefault(p => p.ProductId == orderItem.ProductId);
+            _orderItems.Remove(existingItem);
+            _orderItems.Add(orderItem);
+
+            CalculateOrderAmount();
         }
 
         public void MakeDraft() => OrderStatus = OrderStatus.Draft;

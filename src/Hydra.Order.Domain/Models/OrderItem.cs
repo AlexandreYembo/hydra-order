@@ -15,7 +15,6 @@ namespace Hydra.Order.Domain.Models
 
         public OrderItem(Guid productId, string productName, int qty, decimal price)
         {
-            if(qty> Order.MAX_QTY_PER_ITEM) throw new DomainException($"Maximum {Order.MAX_QTY_PER_ITEM} per item");
             if(qty < Order.MIN_QTY_PER_ITEM) throw new DomainException($"Minimum {Order.MIN_QTY_PER_ITEM} per item");
 
             ProductId = productId;
