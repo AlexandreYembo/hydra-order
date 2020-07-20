@@ -1,6 +1,6 @@
 # Hydra Order
 This microservice will implement the process to:
-- Create a order and order Item
+- Create an order and order Item
  
 - Apply vourche
 
