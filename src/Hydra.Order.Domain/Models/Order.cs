@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentValidation.Results;
 using Hydra.Core.DomainObjects;
 using Hydra.Order.Domain.Enumerables;
 
@@ -15,15 +16,25 @@ namespace Hydra.Order.Domain.Models
         }
         public decimal Amount { get; private set; }
 
+        public decimal DiscountApplied {get; private set;}
+
         public Guid CustomerId { get; private set; }
 
         public OrderStatus OrderStatus { get; private set; }
+
+        public bool HasVoucher { get; private set; }
+
+        public Voucher Voucher { get; private set; }
 
         private readonly List<OrderItem> _orderItems;
         public IReadOnlyCollection<OrderItem> OrderItems  => _orderItems;
 
 
-        private void CalculateOrderAmount() => Amount = OrderItems.Sum(i => i.CalculateAmount());
+        private void CalculateOrderAmount(){
+            Amount = OrderItems.Sum(i => i.CalculateAmount());
+
+            CalculateTotalDiscountAmount();
+        } 
         
         private bool HasOrderItem(OrderItem orderItem) => _orderItems.Any(a => a.ProductId == orderItem.ProductId);
 
@@ -74,13 +85,51 @@ namespace Hydra.Order.Domain.Models
             CalculateOrderAmount();
         }
 
-         public void RemoveItem(OrderItem orderItem)
+        public void RemoveItem(OrderItem orderItem)
         {
             ExistingItemValidate(orderItem);
 
             _orderItems.Remove(orderItem);
 
             CalculateOrderAmount();
+        }
+
+        public ValidationResult ApplyVoucher(Voucher voucher)
+        {
+            var result =  voucher.IsValid();
+            if(!result.IsValid) return result;
+
+            Voucher = voucher;
+            HasVoucher = true;
+
+            CalculateTotalDiscountAmount();
+
+            return result;
+        }
+
+        public void CalculateTotalDiscountAmount(){
+            if(!HasVoucher) return;
+
+            decimal discount = 0;
+            var price = Amount;
+
+            if(Voucher.VoucherType == VoucherType.Value)
+            {
+                if(Voucher.DiscountAmount.HasValue){
+                    discount = Voucher.DiscountAmount.Value;
+                    price -= discount;
+                }
+            }
+            else{
+                if(Voucher.DiscountPercentage.HasValue)
+                {
+                    discount = (Amount * Voucher.DiscountPercentage).Value / 100;
+                    price -= discount;
+                }
+            }
+
+            Amount = price < 0 ? 0 : price;
+            DiscountApplied = discount;
         }
 
         public void MakeDraft() => OrderStatus = OrderStatus.Draft;
