@@ -62,7 +62,6 @@ namespace Hydra.Order.Domain.Tests
         [Trait("Order", "Order")]
         public void AddOrderItem_ExistingItemGreaterThanAllowedQty_ShouldReturnException()
         {
-            //Arrange
              //Arrange
             var order = Models.Order.OrderFactory.NewOrderDraft(Guid.NewGuid());
 
@@ -93,7 +92,6 @@ namespace Hydra.Order.Domain.Tests
         [Trait("Order", "Order")]
         public void ExistingOrderItem_ValidItem_ShouldAllowToUpdateQty()
         {
-            //Arrange
              //Arrange
             var order = Models.Order.OrderFactory.NewOrderDraft(Guid.NewGuid());
 
@@ -116,7 +114,6 @@ namespace Hydra.Order.Domain.Tests
         [Trait("Order", "Order")]
         public void ExistingOrderItem_DifferentItems_ShouldAllowToUpdateAmount()
         {
-            //Arrange
              //Arrange
             var order = Models.Order.OrderFactory.NewOrderDraft(Guid.NewGuid());
 
@@ -138,7 +135,7 @@ namespace Hydra.Order.Domain.Tests
             Assert.Equal(amountItems, order.Amount);
         }
 
-        [Fact(DisplayName= "Update item qty greater than allowd")]
+        [Fact(DisplayName= "Update item qty greater than allowed")]
         [Trait("Order", "Order")]
         public void UpdateOrderItem_ItemQtyGreaterThanAllowed_ShouldReturnException()
         {
@@ -156,9 +153,9 @@ namespace Hydra.Order.Domain.Tests
             Assert.Throws<DomainException>(() =>  order.UpdateItem(orderItemUpdated));
         }
 
-        [Fact(DisplayName= "Update item qty less than allowd")]
+        [Fact(DisplayName= "Remove item from order does not exist")]
         [Trait("Order", "Order")]
-        public void UpdateOrderItem_ItemQtyLessThanAllowed_ShouldReturnException()
+        public void RemoveOrderItem_ItemDoesNotExist_ShouldReturnException()
         {
             //Arrange
             var order = Models.Order.OrderFactory.NewOrderDraft(Guid.NewGuid());
@@ -166,10 +163,33 @@ namespace Hydra.Order.Domain.Tests
             var productId = Guid.NewGuid();
 
             var orderItem = new OrderItem(Guid.NewGuid(), "Test Product", 3, 15);
-            order.AddItem(orderItem);
 
             // Act && Assert
-            Assert.Throws<DomainException>(() =>  new OrderItem(Guid.NewGuid(), "Test Product", Models.Order.MIN_QTY_PER_ITEM -1, 100));
+            Assert.Throws<DomainException>(() =>  order.RemoveItem(orderItem));
+        }
+
+        [Fact(DisplayName= "Remove Item Should Update Amount")]
+        [Trait("Order", "Order")]
+        public void RemoveOrderItem_ExistingItem_ShouldAllowToUpdateAmount()
+        {
+             //Arrange
+            var order = Models.Order.OrderFactory.NewOrderDraft(Guid.NewGuid());
+
+            var productId1 = Guid.NewGuid();
+            var productId2 = Guid.NewGuid();
+
+            var orderItem1 = new OrderItem(productId1, "Test Product A", 2, 100);
+            var orderItem2 = new OrderItem(productId2, "Test Product B", 3, 15);
+            order.AddItem(orderItem1);
+            order.AddItem(orderItem2);
+
+            var amountItems = orderItem2.Qty * orderItem2.Price;
+
+            //Act
+            order.RemoveItem(orderItem1);
+
+            //Assert
+            Assert.Equal(amountItems, order.Amount);
         }
     }
 }

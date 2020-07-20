@@ -74,6 +74,15 @@ namespace Hydra.Order.Domain.Models
             CalculateOrderAmount();
         }
 
+         public void RemoveItem(OrderItem orderItem)
+        {
+            ExistingItemValidate(orderItem);
+
+            _orderItems.Remove(orderItem);
+
+            CalculateOrderAmount();
+        }
+
         public void MakeDraft() => OrderStatus = OrderStatus.Draft;
 
         public static class OrderFactory
