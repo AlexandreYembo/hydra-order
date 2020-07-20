@@ -1,6 +1,6 @@
 namespace Hydra.Order.Domain.Enumerables
 {
-    public enum StatusOrder
+    public enum OrderStatus
     {
         Draft = 0,
         Started = 1,

@@ -17,7 +17,7 @@ namespace Hydra.Order.Domain.Models
 
         public Guid CustomerId { get; private set; }
 
-        public StatusOrder StatusOrder { get; private set; }
+        public OrderStatus OrderStatus { get; private set; }
 
         private readonly List<OrderItem> _orderItems;
         public IReadOnlyCollection<OrderItem> OrderItems  => _orderItems;
@@ -40,7 +40,7 @@ namespace Hydra.Order.Domain.Models
            CalculateOrderAmount();
         }
 
-        public void MakeDraft() => StatusOrder = StatusOrder.Draft;
+        public void MakeDraft() => OrderStatus = OrderStatus.Draft;
 
         public static class OrderFactory
         {
