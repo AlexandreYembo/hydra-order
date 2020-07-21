@@ -2,7 +2,7 @@
 This microservice will implement the process to:
 - Create an order and order Item
  
-- Apply vourche
+- Apply voucher
 
 - Commands handlers
 
@@ -17,7 +17,7 @@ This project was developed by using TDD.
 #### Voucher
 1 - To apply voucher:
 
-1.1 - Voucher only is applied wheither it is valid. To validate this, it will need to check:
+1.1 - Voucher only is applied whether it is valid. To validate this, it will need to check:
 
 1.1.1 - Has a code.
 
@@ -31,9 +31,9 @@ This project was developed by using TDD.
 
 1.2 - Calculate discount based on the type of voucher:
 
-1.2.1 - Check weither voucher will apply discount in percentage.
+1.2.1 - Check whether voucher will apply discount in percentage.
 
-1.2.2 - Check weither voucher will apply based on amount.
+1.2.2 - Check whether voucher will apply based on amount.
 
 1.3 - When the discount is greater than the order amount, the amount should updated to 0.
 
