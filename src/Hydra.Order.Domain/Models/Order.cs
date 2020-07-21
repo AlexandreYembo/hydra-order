@@ -7,7 +7,10 @@ using Hydra.Order.Domain.Enumerables;
 
 namespace Hydra.Order.Domain.Models
 {
-    public class Order
+    /// <summary>
+    /// IAggregateRoot is to mark that this entity is part of the aggregate root
+    /// </summary>
+    public class Order : Entity, IAggregateRoot
     {
         public static int MAX_QTY_PER_ITEM => 15;
         public static int MIN_QTY_PER_ITEM => 1;
@@ -29,14 +32,13 @@ namespace Hydra.Order.Domain.Models
         private readonly List<OrderItem> _orderItems;
         public IReadOnlyCollection<OrderItem> OrderItems  => _orderItems;
 
-
         private void CalculateOrderAmount(){
             Amount = OrderItems.Sum(i => i.CalculateAmount());
 
             CalculateTotalDiscountAmount();
         } 
         
-        private bool HasOrderItem(OrderItem orderItem) => _orderItems.Any(a => a.ProductId == orderItem.ProductId);
+        public bool HasOrderItem(OrderItem orderItem) => _orderItems.Any(a => a.ProductId == orderItem.ProductId);
 
         private void ExistingItemValidate(OrderItem item)
         {

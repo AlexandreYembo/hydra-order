@@ -39,12 +39,45 @@ This project was developed by using TDD.
 
 1.4 Once the voucher is applied, for everytime that there is an update in items the discount should be recalculated.
 
+
+#### Order Commands - Handler
+Command handler will manage a command for each approach of order. There will have few validations:
+1 - Comand is valid.
+
+2 - Order exists
+
+3 - Order item exists
+
+4 - When change the order status:
+
+4.1 - Should be done via repository.
+
+4.2 - Should send an event.
+
+5 - AddOrderItemCommand:
+5.1 - Check is the order status is new or in progress.
+5.2 - Check whether the item has already been added to the order.
+
+
 #### Hydra Core
 It is a project that shares common libraries across the microservices.
 ###### - Packages:
 1- Fluent Validation
 
+2- Mediatr
+
 ### Tests
+
+#### Domain tests
 - Packages:
+
 1 - xUnit
 
+#### Application tests
+- Packages:
+
+1- xUnit
+
+2- MOQ (to mock dependency injection)
+
+3- MOQ.automock (to use the library to create auto mock instance of interfaces)

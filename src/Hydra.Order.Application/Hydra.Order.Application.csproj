@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hydra.Core\Hydra.Core.csproj" />
+    <ProjectReference Include="..\Hydra.Order.Domain\Hydra.Order.Domain.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
