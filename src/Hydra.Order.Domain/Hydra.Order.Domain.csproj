@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\hydra-core\Hydra.Core\Hydra.Core.csproj" />
+    <ProjectReference Include="..\..\hydra-core\Hydra.Core\Hydra.Core.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

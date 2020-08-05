@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Order.Application.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Order.Domain.Tests", "01-UnitTests\Hydra.Order.Domain.Tests\Hydra.Order.Domain.Tests.csproj", "{5F218E77-C56A-461F-A69D-5DE74D7F6420}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Core", "hydra-core\Hydra.Core\Hydra.Core.csproj", "{93F81CF8-87BA-4B81-B853-23BD8BC56B69}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Core", "..\hydra-core\Hydra.Core\Hydra.Core.csproj", "{A2152B62-CED5-4F16-B0F5-34304F23EF3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -116,6 +116,18 @@ Global
 		{93F81CF8-87BA-4B81-B853-23BD8BC56B69}.Release|x64.Build.0 = Release|Any CPU
 		{93F81CF8-87BA-4B81-B853-23BD8BC56B69}.Release|x86.ActiveCfg = Release|Any CPU
 		{93F81CF8-87BA-4B81-B853-23BD8BC56B69}.Release|x86.Build.0 = Release|Any CPU
+		{A2152B62-CED5-4F16-B0F5-34304F23EF3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2152B62-CED5-4F16-B0F5-34304F23EF3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2152B62-CED5-4F16-B0F5-34304F23EF3E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A2152B62-CED5-4F16-B0F5-34304F23EF3E}.Debug|x64.Build.0 = Debug|Any CPU
+		{A2152B62-CED5-4F16-B0F5-34304F23EF3E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A2152B62-CED5-4F16-B0F5-34304F23EF3E}.Debug|x86.Build.0 = Debug|Any CPU
+		{A2152B62-CED5-4F16-B0F5-34304F23EF3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2152B62-CED5-4F16-B0F5-34304F23EF3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2152B62-CED5-4F16-B0F5-34304F23EF3E}.Release|x64.ActiveCfg = Release|Any CPU
+		{A2152B62-CED5-4F16-B0F5-34304F23EF3E}.Release|x64.Build.0 = Release|Any CPU
+		{A2152B62-CED5-4F16-B0F5-34304F23EF3E}.Release|x86.ActiveCfg = Release|Any CPU
+		{A2152B62-CED5-4F16-B0F5-34304F23EF3E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EB659607-5CEE-4D0D-8282-C11A68BE3F6C} = {70AEA756-42AD-49C5-B77F-63912F2D734C}

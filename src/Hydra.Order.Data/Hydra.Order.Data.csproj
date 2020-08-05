@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\hydra-core\Hydra.Core\Hydra.Core.csproj" />
+    <ProjectReference Include="..\..\hydra-core\Hydra.Core\Hydra.Core.csproj" />
   </ItemGroup>
 
 </Project>
