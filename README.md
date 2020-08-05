@@ -81,3 +81,14 @@ It is a project that shares common libraries across the microservices.
 2- MOQ (to mock dependency injection)
 
 3- MOQ.automock (to use the library to create auto mock instance of interfaces)
+
+
+#### Integration tests
+##### Hydra Order API
+- Packages:
+
+1 - xUnit
+
+2 - Microsoft.AspNetCore.Mvc.Testing
+
+3 - Microsoft.AspNetCore.App
