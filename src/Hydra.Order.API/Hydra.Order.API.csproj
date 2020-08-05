@@ -11,8 +11,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Hydra.Order.Domain\Hydra.Order.Domain.csproj" />
     <ProjectReference Include="..\Hydra.Order.Application\Hydra.Order.Application.csproj" />
-    <ProjectReference Include="..\Hydra.Core\Hydra.Core.csproj" />
     <ProjectReference Include="..\Hydra.Order.Data\Hydra.Order.Data.csproj" />
+    <ProjectReference Include="..\hydra-core\Hydra.Core\Hydra.Core.csproj" />
   </ItemGroup>
 
 
