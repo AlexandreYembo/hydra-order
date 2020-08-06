@@ -3,8 +3,11 @@ using FluentValidation.Results;
 using Hydra.Core.Messages;
 using Hydra.Order.Application.Validations;
 
-namespace Hydra.Order.Application.Queries
+namespace Hydra.Order.Application.Commands
 {
+    /// <summary>
+    /// Implements CQRS pattern -> Command to add order item and persists in Write Database
+    /// </summary>
     public class AddOrderItemCommand : Command
     {
         public Guid CustomerId { get; private set; }

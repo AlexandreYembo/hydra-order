@@ -1,10 +1,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Hydra.Core.DomainObjects;
-using Hydra.Core.Messages;
 using Hydra.Order.Application.Events;
-using Hydra.Order.Application.Queries;
 using Hydra.Order.Domain.Models;
 using Hydra.Order.Domain.Repository;
 using MediatR;
@@ -32,7 +29,7 @@ namespace Hydra.Order.Application.Commands
 
             if(order == null)
             {
-                order = AddNewOrder(message, orderItem);
+                order = AddOrder(message, orderItem);
             }
             else
             {
@@ -62,7 +59,7 @@ namespace Hydra.Order.Application.Commands
             _orderRepository.UpdateOrder(order);
         }
 
-        private Domain.Models.Order AddNewOrder(AddOrderItemCommand message, OrderItem orderItem)
+        private Domain.Models.Order AddOrder(AddOrderItemCommand message, OrderItem orderItem)
         {
             Domain.Models.Order order = Domain.Models.Order.OrderFactory.NewOrderDraft(message.CustomerId);
             order.AddItem(orderItem);

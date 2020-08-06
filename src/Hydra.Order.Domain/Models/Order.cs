@@ -17,6 +17,17 @@ namespace Hydra.Order.Domain.Models
         protected Order(){
             _orderItems= new List<OrderItem>();
         }
+
+        public Order(Guid customerId, bool isUsedVoucher, decimal discount, decimal amount)
+        {
+            CustomerId = customerId;
+            IsUsedVoucher = isUsedVoucher;
+            DiscountApplied = discount;
+            Amount = amount;
+            _orderItems = new List<OrderItem>();
+        }
+
+        public int Code { get; private set; }
         public decimal Amount { get; private set; }
 
         public decimal DiscountApplied {get; private set;}
@@ -25,8 +36,12 @@ namespace Hydra.Order.Domain.Models
 
         public OrderStatus OrderStatus { get; private set; }
 
+        public Guid? VourcherId { get; private set; }
+        
         public bool HasVoucher { get; private set; }
+        public bool IsUsedVoucher { get; private set; }
 
+        //EF relationship
         public Voucher Voucher { get; private set; }
 
         private readonly List<OrderItem> _orderItems;
@@ -60,7 +75,9 @@ namespace Hydra.Order.Domain.Models
         public void AddItem(OrderItem orderItem)
         {
             ValidItemQtyAllowed(orderItem);
-
+            
+            orderItem.AddOrder(Id);
+            
             if(HasOrderItem(orderItem))
             {
                 var existingItem = _orderItems.FirstOrDefault( p => p.ProductId == orderItem.ProductId);
@@ -70,6 +87,8 @@ namespace Hydra.Order.Domain.Models
                 _orderItems.Remove(existingItem);
             }
 
+            orderItem.CalculateAmount();
+
            _orderItems.Add(orderItem);
 
            CalculateOrderAmount();
@@ -77,6 +96,9 @@ namespace Hydra.Order.Domain.Models
 
         public void UpdateItem(OrderItem orderItem)
         {
+            if(!orderItem.IsValid().IsValid) return;
+            orderItem.AddOrder(Id);
+
             ExistingItemValidate(orderItem);
             ValidItemQtyAllowed(orderItem);
 
@@ -89,6 +111,8 @@ namespace Hydra.Order.Domain.Models
 
         public void RemoveItem(OrderItem orderItem)
         {
+            if(!orderItem.IsValid().IsValid) return;
+
             ExistingItemValidate(orderItem);
 
             _orderItems.Remove(orderItem);
@@ -135,6 +159,11 @@ namespace Hydra.Order.Domain.Models
         }
 
         public void MakeDraft() => OrderStatus = OrderStatus.Draft;
+        public void StartOrder() => OrderStatus = OrderStatus.Started;
+        public void ConfirmOrder() => OrderStatus = OrderStatus.Processed;
+        public void DeliverOrder() => OrderStatus = OrderStatus.Delivered;
+        public void CancelOrder() => OrderStatus = OrderStatus.Cancelled;
+
 
         public static class OrderFactory
         {
@@ -149,5 +178,8 @@ namespace Hydra.Order.Domain.Models
                 return order;
             }
         }
+
+
+
     }
 }

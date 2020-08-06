@@ -1,6 +1,6 @@
 using System;
 using FluentValidation;
-using Hydra.Order.Application.Queries;
+using Hydra.Order.Application.Commands;
 
 namespace Hydra.Order.Application.Validations
 {

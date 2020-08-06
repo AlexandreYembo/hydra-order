@@ -1,4 +1,19 @@
 # Hydra Order
+
+### Architecture Pattern:
+- CQRS
+
+    -- Hydra.Order.Application
+    
+    1. Commands
+
+    2. Events
+
+    3. Queries
+    
+
+- DDD
+
 This microservice will implement the process to:
 - Create an order and order Item
  
