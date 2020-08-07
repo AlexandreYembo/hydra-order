@@ -1,22 +1,21 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Hydra.Core.Communication.Mediator;
 using Hydra.Core.Data;
-using Hydra.Core.DomainObjects;
 using Hydra.Core.Messages;
 using Hydra.Data.Extensions;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hydra.Order.Data
 {
     public class OrderContext : DbContext, IUnitOfWork
     {
-        private readonly IMediator _mediator;
+        private readonly IMediatorHandler _mediatorHandler;
 
-        public OrderContext(DbContextOptions<OrderContext> options, IMediator mediator) : base(options)
+        public OrderContext(DbContextOptions<OrderContext> options, IMediatorHandler mediatorHandler) : base(options)
         {
-            _mediator = mediator;
+            _mediatorHandler = mediatorHandler;
         }
 
         public DbSet<Domain.Models.Order> Order {get;set;}
@@ -30,6 +29,7 @@ namespace Hydra.Order.Data
                 e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)"); // avoid do create any column NVarchar(MAX)
 
+            //Use to Ignore event to persist on Database.
             modelBuilder.Ignore<Event>();
 
             //Does not need to add map for each element, new EF supports
@@ -59,17 +59,11 @@ namespace Hydra.Order.Data
                     entry.Property("CreatedDate").IsModified = false;   //Ignore to update any value set for the property = "CreatedDate"
             }
 
-            return await base.SaveChangesAsync() > 0;
+            var success = await base.SaveChangesAsync() > 0;
+            if(success)
+                await _mediatorHandler.PublishEvents(this);
+
+            return success;
         }
-
-
-        // public async Task<bool> Commit()
-        // {
-        //     var success = await base.SaveChangesAsync() > 0;
-
-        //     if(success) await _mediator.OrderEventPublish(this);
-
-        //     return success;
-        // }
     }
 }

@@ -24,6 +24,7 @@ namespace Hydra.Order.Domain.Models
             IsUsedVoucher = isUsedVoucher;
             DiscountApplied = discount;
             Amount = amount;
+            CreatedDate = DateTime.Now;
             _orderItems = new List<OrderItem>();
         }
 
@@ -40,6 +41,8 @@ namespace Hydra.Order.Domain.Models
         
         public bool HasVoucher { get; private set; }
         public bool IsUsedVoucher { get; private set; }
+
+        public DateTime CreatedDate { get; private set; }
 
         //EF relationship
         public Voucher Voucher { get; private set; }
@@ -94,6 +97,12 @@ namespace Hydra.Order.Domain.Models
            CalculateOrderAmount();
         }
 
+        public void UpdateQty(OrderItem orderItem, int qty)
+        {
+            orderItem.UpdateQty(qty);
+            UpdateItem(orderItem);
+        }
+
         public void UpdateItem(OrderItem orderItem)
         {
             if(!orderItem.IsValid().IsValid) return;
@@ -122,15 +131,15 @@ namespace Hydra.Order.Domain.Models
 
         public ValidationResult ApplyVoucher(Voucher voucher)
         {
-            var result =  voucher.IsValid();
-            if(!result.IsValid) return result;
+            var validationResult =  voucher.VoucherIsApplicable();
+            if(!validationResult.IsValid) return validationResult;
 
             Voucher = voucher;
             HasVoucher = true;
 
             CalculateTotalDiscountAmount();
 
-            return result;
+            return validationResult;
         }
 
         public void CalculateTotalDiscountAmount(){

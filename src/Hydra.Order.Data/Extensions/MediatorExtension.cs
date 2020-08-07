@@ -1,8 +1,8 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Hydra.Core.Communication.Mediator;
 using Hydra.Core.DomainObjects;
 using Hydra.Order.Data;
-using MediatR;
 
 namespace Hydra.Data.Extensions
 {
@@ -10,11 +10,12 @@ namespace Hydra.Data.Extensions
         {
             /// <summary>
             /// Extension that check in the entity for all notification and then it will send them.
+            /// Extension to Publish List of Events
             /// </summary>
             /// <param name="mediator"></param>
             /// <param name="ctx"></param>
             /// <returns></returns>
-            public static async Task OrderEventPublish(this IMediator mediator, OrderContext ctx)
+            public static async Task PublishEvents(this IMediatorHandler mediator, OrderContext ctx)
             {
                 var domainEntities = ctx.ChangeTracker
                     .Entries<Entity>()
@@ -29,7 +30,7 @@ namespace Hydra.Data.Extensions
 
                 var tasks = domainEvents
                     .Select(async (domainEvent) => {
-                        await mediator.Publish(domainEvents);
+                        await mediator.PublishEvent(domainEvent);
                     });
 
                 await Task.WhenAll(tasks);

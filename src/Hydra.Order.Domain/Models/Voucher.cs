@@ -35,7 +35,7 @@ namespace Hydra.Order.Domain.Models
 
         public ICollection<Order> Order { get; set; }
 
-        public ValidationResult IsValid()
+        internal ValidationResult VoucherIsApplicable()
         {
             return new VoucherValidation().Validate(this);
         }
