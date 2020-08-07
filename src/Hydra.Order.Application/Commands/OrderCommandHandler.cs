@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Hydra.Core.Communication.Mediator;
 using Hydra.Order.Application.Events;
 using Hydra.Order.Domain.Models;
 using Hydra.Order.Domain.Repository;
@@ -11,12 +12,10 @@ namespace Hydra.Order.Application.Commands
     public class OrderCommandHandler : CommandHandler, IRequestHandler<AddOrderItemCommand, bool>
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IMediator _mediator;
 
-        public OrderCommandHandler(IOrderRepository orderRepository, IMediator mediator) : base(mediator)
+        public OrderCommandHandler(IOrderRepository orderRepository, IMediatorHandler mediatorHandler) : base(mediatorHandler)
         {
             _orderRepository = orderRepository;
-            _mediator = mediator;
         }
 
         public async Task<bool> Handle(AddOrderItemCommand message, CancellationToken cancellationToken)

@@ -1,16 +1,18 @@
+using Hydra.Core.Communication.Mediator;
 using Hydra.Core.DomainObjects;
 using Hydra.Core.Messages;
+using Hydra.Core.Messages.CommonMessages.Notifications;
 using MediatR;
 
 namespace Hydra.Order.Application.Commands
 {
     public abstract class CommandHandler
     {
-        private readonly IMediator _mediator;
+        private readonly IMediatorHandler _mediatorHandler;
         
-        protected CommandHandler(IMediator mediator)
+        protected CommandHandler(IMediatorHandler mediatorHandler)
         {
-            _mediator = mediator;
+            _mediatorHandler = mediatorHandler;
         }
         public virtual bool IsCommandValid(Command message)
         {
@@ -18,7 +20,8 @@ namespace Hydra.Order.Application.Commands
 
             foreach (var error in message.ValidationResult.Errors)
             {
-                _mediator.Publish(new DomainNotification(message.MessageType, error.ErrorMessage));
+                //MessageType -> name of the class
+                _mediatorHandler.PublishNotification(new DomainNotification(message.MessageType, error.ErrorMessage));
             }
 
             return false;

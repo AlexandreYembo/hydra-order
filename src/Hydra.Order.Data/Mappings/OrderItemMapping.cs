@@ -12,7 +12,7 @@ namespace Hydra.Order.Data.Mappings
 
             builder.Property(c => c.ProductName)
                 .IsRequired()
-                .HasColumnType("varchar(250");
+                .HasColumnType("varchar(250)");
 
             // N : 1 => Order Item : Order
             builder.HasOne(c => c.Order)

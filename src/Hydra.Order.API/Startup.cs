@@ -1,5 +1,6 @@
 using Hydra.Order.API.Setup;
 using Hydra.Order.Data;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,8 @@ namespace Hydra.Order.API
 
             services.AddDbContext<OrderContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddMediatR(typeof(Startup));
 
             services.RegisterServices();
         }

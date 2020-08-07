@@ -5,14 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.6">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\hydra-core\Hydra.Core\Hydra.Core.csproj" />
     <ProjectReference Include="..\Hydra.Order.Application\Hydra.Order.Application.csproj" />
     <ProjectReference Include="..\Hydra.Order.Data\Hydra.Order.Data.csproj" />
     <ProjectReference Include="..\Hydra.Order.Domain\Hydra.Order.Domain.csproj" />
+    <ProjectReference Include="..\..\hydra-core\Hydra.Core\Hydra.Core.csproj" />
   </ItemGroup>
 
 
