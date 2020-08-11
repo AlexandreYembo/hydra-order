@@ -4,6 +4,7 @@ using Hydra.Core.Communication.Mediator;
 using Hydra.Core.Messages.CommonMessages.Notifications;
 using Hydra.Order.Application.Commands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

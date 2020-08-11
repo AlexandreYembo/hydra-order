@@ -5,12 +5,15 @@ using Hydra.Order.API.Tests.Config;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Hydra.Order.API.Tests
+namespace Hydra.Order.API.Tests.Config
 {
     /// <summary>
     /// It will test the API using the test startup
     /// </summary>
     [CollectionDefinition(nameof(IntegrationApiTestsFixtureCollection))]
+    /// <summary>
+    /// StartupApiTests -> will take the Test Startup file
+    /// </summary>
     public class IntegrationApiTestsFixtureCollection : ICollectionFixture<IntegrationTestFixture<StartupApiTests>>
     {   }
 
@@ -28,11 +31,19 @@ namespace Hydra.Order.API.Tests
         {
             var clientOptions = new WebApplicationFactoryClientOptions
             {
-                
+                HandleCookies = true, // Will send the cookie in all request once it will persisted
+                BaseAddress = new Uri("http://localhost"),
+                AllowAutoRedirect = true,
+                MaxAutomaticRedirections = 7 // Limit loopings for redirect
             };
 
             Factory = new HydraAppFactory<TStartup>();
             Client = Factory.CreateClient(clientOptions);
+        }
+
+        public void CreateOrder()
+        {
+
         }
 
         public void Dispose()

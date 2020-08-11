@@ -23,11 +23,18 @@ namespace Hydra.Order.API.Controllers
         /// If there is notification, there will have errors to notify
         /// </summary>
         /// <returns></returns>
-        protected async Task<IActionResult> InvokeAsync(){
+        protected async Task<IActionResult> InvokeAsync(object result = null){
             if(_notifications.HasNotification())
-                return BadRequest(await new SummaryComponent(_notifications).InvokeAsync());
+                return BadRequest(new
+                {
+                    success = false,
+                    errors = await new SummaryComponent(_notifications).InvokeAsync()
+                });
             
-            return Ok();
+            return Ok( new{
+                success = true,
+                data = result
+            });
 
         }
 
