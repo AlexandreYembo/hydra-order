@@ -11,23 +11,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Order.Domain", "Hydra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Order.Data", "Hydra.Order.Data\Hydra.Order.Data.csproj", "{59422C7C-5866-40D5-B2C5-0168F0770633}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-UnitTests", "01-UnitTests", "{70AEA756-42AD-49C5-B77F-63912F2D734C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-UnitTests", "01-UnitTests", "{70AEA756-42AD-49C5-B77F-63912F2D734C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Order.Application.Tests", "01-UnitTests\Hydra.Order.Application.Tests\Hydra.Order.Application.Tests.csproj", "{EB659607-5CEE-4D0D-8282-C11A68BE3F6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Order.Application.Tests", "02-UnitTests\Hydra.Order.Application.Tests\Hydra.Order.Application.Tests.csproj", "{EB659607-5CEE-4D0D-8282-C11A68BE3F6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Order.Domain.Tests", "01-UnitTests\Hydra.Order.Domain.Tests\Hydra.Order.Domain.Tests.csproj", "{5F218E77-C56A-461F-A69D-5DE74D7F6420}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Order.Domain.Tests", "02-UnitTests\Hydra.Order.Domain.Tests\Hydra.Order.Domain.Tests.csproj", "{5F218E77-C56A-461F-A69D-5DE74D7F6420}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Core", "..\hydra-core\Hydra.Core\Hydra.Core.csproj", "{A2152B62-CED5-4F16-B0F5-34304F23EF3E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-IntegrationTests", "02-IntegrationTests", "{ACC36B78-72DA-4B0A-806D-BC1111E78D4A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-IntegrationTests", "03-IntegrationTests", "{ACC36B78-72DA-4B0A-806D-BC1111E78D4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Order.API.Tests", "02-IntegrationTests\Hydra.Order.API.Tests\Hydra.Order.API.Tests.csproj", "{DD23227C-5136-4513-9DE7-631691745356}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Order.API.Tests", "03-IntegrationTests\Hydra.Order.API.Tests\Hydra.Order.API.Tests.csproj", "{DD23227C-5136-4513-9DE7-631691745356}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{13A59FA0-DC2A-11EA-8C80-69B55A45D4BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Tests.Core", "..\hydra-tests-core\Hydra.Tests.Core\Hydra.Tests.Core.csproj", "{4199B799-8EB0-4BE5-8A62-7078F2515260}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.EventSourcing", "..\hydra-eventsourcing\Hydra.EventSourcing\Hydra.EventSourcing.csproj", "{8CAD808B-71E1-44CE-8DAA-70BA147C7D20}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-BDD", "01-BDD", "{D97535FA-8733-4062-BF4A-923B8E302F0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.BDD.Tests", "01-BDD\Hydra.BDD.Tests\Hydra.BDD.Tests.csproj", "{560EF048-0D77-4486-A8F2-AF69DB735723}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -174,6 +178,30 @@ Global
 		{8CAD808B-71E1-44CE-8DAA-70BA147C7D20}.Release|x64.Build.0 = Release|Any CPU
 		{8CAD808B-71E1-44CE-8DAA-70BA147C7D20}.Release|x86.ActiveCfg = Release|Any CPU
 		{8CAD808B-71E1-44CE-8DAA-70BA147C7D20}.Release|x86.Build.0 = Release|Any CPU
+		{6F35CFCB-2C35-42E6-A0AC-F6CBE46FEEC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F35CFCB-2C35-42E6-A0AC-F6CBE46FEEC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F35CFCB-2C35-42E6-A0AC-F6CBE46FEEC1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6F35CFCB-2C35-42E6-A0AC-F6CBE46FEEC1}.Debug|x64.Build.0 = Debug|Any CPU
+		{6F35CFCB-2C35-42E6-A0AC-F6CBE46FEEC1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6F35CFCB-2C35-42E6-A0AC-F6CBE46FEEC1}.Debug|x86.Build.0 = Debug|Any CPU
+		{6F35CFCB-2C35-42E6-A0AC-F6CBE46FEEC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F35CFCB-2C35-42E6-A0AC-F6CBE46FEEC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F35CFCB-2C35-42E6-A0AC-F6CBE46FEEC1}.Release|x64.ActiveCfg = Release|Any CPU
+		{6F35CFCB-2C35-42E6-A0AC-F6CBE46FEEC1}.Release|x64.Build.0 = Release|Any CPU
+		{6F35CFCB-2C35-42E6-A0AC-F6CBE46FEEC1}.Release|x86.ActiveCfg = Release|Any CPU
+		{6F35CFCB-2C35-42E6-A0AC-F6CBE46FEEC1}.Release|x86.Build.0 = Release|Any CPU
+		{560EF048-0D77-4486-A8F2-AF69DB735723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{560EF048-0D77-4486-A8F2-AF69DB735723}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{560EF048-0D77-4486-A8F2-AF69DB735723}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{560EF048-0D77-4486-A8F2-AF69DB735723}.Debug|x64.Build.0 = Debug|Any CPU
+		{560EF048-0D77-4486-A8F2-AF69DB735723}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{560EF048-0D77-4486-A8F2-AF69DB735723}.Debug|x86.Build.0 = Debug|Any CPU
+		{560EF048-0D77-4486-A8F2-AF69DB735723}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{560EF048-0D77-4486-A8F2-AF69DB735723}.Release|Any CPU.Build.0 = Release|Any CPU
+		{560EF048-0D77-4486-A8F2-AF69DB735723}.Release|x64.ActiveCfg = Release|Any CPU
+		{560EF048-0D77-4486-A8F2-AF69DB735723}.Release|x64.Build.0 = Release|Any CPU
+		{560EF048-0D77-4486-A8F2-AF69DB735723}.Release|x86.ActiveCfg = Release|Any CPU
+		{560EF048-0D77-4486-A8F2-AF69DB735723}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4199B799-8EB0-4BE5-8A62-7078F2515260} = {13A59FA0-DC2A-11EA-8C80-69B55A45D4BE}
@@ -181,5 +209,6 @@ Global
 		{EB659607-5CEE-4D0D-8282-C11A68BE3F6C} = {70AEA756-42AD-49C5-B77F-63912F2D734C}
 		{5F218E77-C56A-461F-A69D-5DE74D7F6420} = {70AEA756-42AD-49C5-B77F-63912F2D734C}
 		{DD23227C-5136-4513-9DE7-631691745356} = {ACC36B78-72DA-4B0A-806D-BC1111E78D4A}
+		{560EF048-0D77-4486-A8F2-AF69DB735723} = {D97535FA-8733-4062-BF4A-923B8E302F0C}
 	EndGlobalSection
 EndGlobal
