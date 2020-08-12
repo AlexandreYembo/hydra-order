@@ -44,7 +44,8 @@ namespace Hydra.Order.Data.Migrations
                     OrderStatus = table.Column<int>(nullable: false),
                     VourcherId = table.Column<Guid>(nullable: true),
                     HasVoucher = table.Column<bool>(nullable: false),
-                    IsUsedVoucher = table.Column<bool>(nullable: false)
+                    IsUsedVoucher = table.Column<bool>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
