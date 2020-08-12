@@ -1,5 +1,9 @@
+using System;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Hydra.Order.API.Models;
 using Hydra.Order.API.Tests.Config;
+using Hydra.Tests.Core.Order;
 using Xunit;
 
 namespace Hydra.Order.API.Tests
@@ -18,7 +22,18 @@ namespace Hydra.Order.API.Tests
         [Fact(DisplayName="Add Item to new order"), TestPriority(1)]
         public async Task AddItem_NewOrder_ShouldReturnSuccess()
         {
-            
+            //Arrange
+            var orderItem = new OrderItemDto
+            {
+                Id = Guid.NewGuid(),
+                Qty = 2
+            };
+
+            //Act
+            var postResponse = await _testsFixture.Client.PostAsJsonAsync("api/order", orderItem);
+
+            //Assert
+            postResponse.EnsureSuccessStatusCode(); //return 200
         }
     }
 }

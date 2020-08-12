@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Hydra.Core.Communication.Mediator;
 using Hydra.Core.Messages.CommonMessages.Notifications;
 using Hydra.Order.Application.Commands;
+using Hydra.Order.Application.Queries.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,11 +48,11 @@ namespace Hydra.Order.API.Controllers
         /// <param name="qty"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddOrderItem(Guid id, int qty)
+        public async Task<IActionResult> AddOrderItem([FromBody] OrderItemDto dto)
         {
             //Implement method to check product exists, quantity in stock
             
-            var command = new AddOrderItemCommand(Guid.NewGuid(), Guid.NewGuid(), "Product Test",  qty, 12.2m);
+            var command = new AddOrderItemCommand(Guid.NewGuid(), Guid.NewGuid(), "Product Test",  dto.Qty, 12.2m);
             await _mediatorHandler.SendCommand(command);
 
             return await InvokeAsync();

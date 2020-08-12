@@ -3,6 +3,8 @@
 #### Package references:
 - Microsoft.AspNetCore.Mvc.Testing
 
+- Microsoft.AspNet.WebApi.Client
+
 - Microsoft.AspnetCore.App ***** (Not required for .net Core 3.0 or Higher)
 
 - Bogus (To generate fake data)

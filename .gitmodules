@@ -4,3 +4,6 @@
 [submodule "hydra-tests-core"]
 	path = hydra-tests-core
 	url = https://github.com/AlexandreYembo/hydra-tests-core
+[submodule "hydra-eventsourcing"]
+	path = hydra-eventsourcing
+	url = https://github.com/AlexandreYembo/hydra-eventsourcing
