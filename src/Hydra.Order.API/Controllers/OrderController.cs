@@ -2,10 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Hydra.Core.Communication.Mediator;
 using Hydra.Core.Messages.CommonMessages.Notifications;
+using Hydra.Order.API.Models;
 using Hydra.Order.Application.Commands;
-using Hydra.Order.Application.Queries.Dtos;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -58,7 +57,7 @@ namespace Hydra.Order.API.Controllers
             return await InvokeAsync();
         }
 
-        // [HttpPut]
+        // [HttpPut]x
         // public async Task<ActionResult> UpdateOrder()
         // {
         //     var rng = new Random();
