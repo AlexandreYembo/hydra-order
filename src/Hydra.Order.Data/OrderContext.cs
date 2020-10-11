@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hydra.Core.Communication.Mediator;
 using Hydra.Core.Data;
+using Hydra.Core.Extensions;
 using Hydra.Core.Messages;
 using Hydra.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
