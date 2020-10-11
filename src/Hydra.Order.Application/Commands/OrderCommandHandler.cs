@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Hydra.Core.Communication.Mediator;
+using Hydra.Core.Messages;
 using Hydra.Core.Messages.CommonMessages.Notifications;
 using Hydra.Order.Application.Events;
 using Hydra.Order.Domain.Models;
@@ -177,6 +178,19 @@ namespace Hydra.Order.Application.Commands
             }
 
             _orderRepository.UpdateOrder(order);
+        }
+
+        public bool IsCommandValid(Command message)
+        {
+            if(message.IsValid()) return true;
+
+            foreach (var error in message.ValidationResult.Errors)
+            {
+                //MessageType -> name of the class
+                _mediatorHandler.PublishNotification(new DomainNotification(message.MessageType, error.ErrorMessage));
+            }
+
+            return false;
         }
     }
 }

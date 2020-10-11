@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation.Results;
 using Hydra.Core.Communication.Mediator;
 using Hydra.Core.Data;
 using Hydra.Core.Extensions;
@@ -26,12 +27,14 @@ namespace Hydra.Order.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<ValidationResult>();
+            //Use to Ignore event to persist on Database.
+            modelBuilder.Ignore<Event>();
+
            foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
                 e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)"); // avoid do create any column NVarchar(MAX)
 
-            //Use to Ignore event to persist on Database.
-            modelBuilder.Ignore<Event>();
 
             //Does not need to add map for each element, new EF supports
             //It will find all entities and mapping defined on DbSet<TEntity> via reflection
