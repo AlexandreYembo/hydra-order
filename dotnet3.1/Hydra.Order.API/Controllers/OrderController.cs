@@ -7,12 +7,13 @@ using Hydra.Order.Application.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Hydra.WebAPI.Core.Controllers;
 
 namespace Hydra.Order.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OrderController : ExtendedControllerBase
+    public class OrderController : MainController
     {
         private readonly IMediatorHandler _mediatorHandler;
 

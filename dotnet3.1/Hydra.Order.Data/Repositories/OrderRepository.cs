@@ -72,11 +72,6 @@ namespace Hydra.Catalog.Data.Repositories
                                     .FirstOrDefaultAsync(f => f.OrderId == orderId && f.ProductId == productId);
         }
 
-        public async Task<Voucher> GetVoucherByCode(string code)
-        {
-            return await _context.Vourcher.AsNoTracking().FirstOrDefaultAsync(f => f.Code == code);
-        }
-
         public void RemoveItem(OrderItem orderItem)
         {
             _context.OrderItem.Remove(orderItem);

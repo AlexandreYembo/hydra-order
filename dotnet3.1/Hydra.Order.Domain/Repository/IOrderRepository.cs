@@ -22,8 +22,5 @@ namespace Hydra.Order.Domain.Repository
         void UpdateOrderItem(Models.OrderItem orderItem);
 
         void RemoveItem(Models.OrderItem orderItem);
-
-        Task<Models.Voucher> GetVoucherByCode(string code);
-
     }
 }
