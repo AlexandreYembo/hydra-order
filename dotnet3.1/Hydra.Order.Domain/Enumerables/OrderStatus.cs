@@ -4,8 +4,10 @@ namespace Hydra.Order.Domain.Enumerables
     {
         Draft = 0,
         Started = 1,
-        Processed = 4,
-        Delivered = 5,
-        Cancelled = 6
+        Processing = 2,
+        Processed = 3,
+        Delivered = 4,
+        Refused = -1,
+        Cancelled = -2
     }
 }

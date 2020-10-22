@@ -20,7 +20,7 @@ namespace Hydra.Order.Data.Migrations
                 .HasAnnotation("Relational:Sequence:.OrderSequence", "'OrderSequence', '', '1000', '1', '', '', 'Int32', 'False'")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Hydra.Order.Domain.Models.Order", b =>
+            modelBuilder.Entity("Hydra.Order.Domain.Orders.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,30 +43,33 @@ namespace Hydra.Order.Data.Migrations
                     b.Property<decimal>("DiscountApplied")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("HasVoucher")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsUsedVoucher")
                         .HasColumnType("bit");
 
                     b.Property<int>("OrderStatus")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("VoucherId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("VourcherId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VourcherId");
+                    b.HasIndex("VoucherId");
 
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Hydra.Order.Domain.Models.OrderItem", b =>
+            modelBuilder.Entity("Hydra.Order.Domain.Orders.OrderItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("varchar(100)");
 
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
@@ -91,7 +94,7 @@ namespace Hydra.Order.Data.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("Hydra.Order.Domain.Models.Voucher", b =>
+            modelBuilder.Entity("Hydra.Order.Domain.Vouchers.Voucher", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -133,16 +136,53 @@ namespace Hydra.Order.Data.Migrations
                     b.ToTable("Vouchers");
                 });
 
-            modelBuilder.Entity("Hydra.Order.Domain.Models.Order", b =>
+            modelBuilder.Entity("Hydra.Order.Domain.Orders.Order", b =>
                 {
-                    b.HasOne("Hydra.Order.Domain.Models.Voucher", "Voucher")
-                        .WithMany("Order")
-                        .HasForeignKey("VourcherId");
+                    b.HasOne("Hydra.Order.Domain.Vouchers.Voucher", "Voucher")
+                        .WithMany()
+                        .HasForeignKey("VoucherId");
+
+                    b.OwnsOne("Hydra.Order.Domain.Orders.Address", "Address", b1 =>
+                        {
+                            b1.Property<Guid>("OrderId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("City")
+                                .HasColumnName("City")
+                                .HasColumnType("varchar(100)");
+
+                            b1.Property<string>("Country")
+                                .HasColumnName("Country")
+                                .HasColumnType("varchar(100)");
+
+                            b1.Property<string>("Number")
+                                .HasColumnName("Number")
+                                .HasColumnType("varchar(100)");
+
+                            b1.Property<string>("PostCode")
+                                .HasColumnName("PostCode")
+                                .HasColumnType("varchar(100)");
+
+                            b1.Property<string>("State")
+                                .HasColumnName("State")
+                                .HasColumnType("varchar(100)");
+
+                            b1.Property<string>("Street")
+                                .HasColumnName("StreetName")
+                                .HasColumnType("varchar(100)");
+
+                            b1.HasKey("OrderId");
+
+                            b1.ToTable("Orders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+                        });
                 });
 
-            modelBuilder.Entity("Hydra.Order.Domain.Models.OrderItem", b =>
+            modelBuilder.Entity("Hydra.Order.Domain.Orders.OrderItem", b =>
                 {
-                    b.HasOne("Hydra.Order.Domain.Models.Order", "Order")
+                    b.HasOne("Hydra.Order.Domain.Orders.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .IsRequired();

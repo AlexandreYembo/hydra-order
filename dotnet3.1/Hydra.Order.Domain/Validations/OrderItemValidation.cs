@@ -1,7 +1,5 @@
-using System;
 using FluentValidation;
-using Hydra.Order.Domain.Enumerables;
-using Hydra.Order.Domain.Models;
+using Hydra.Order.Domain.Orders;
 
 namespace Hydra.Order.Domain.Validations
 {

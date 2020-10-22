@@ -1,15 +1,20 @@
-
+using FluentValidation.Results;
 using Hydra.Catalog.Data.Repositories;
 using Hydra.Core.Communication.Mediator;
-using Hydra.Core.Data.EventSourcing;
 using Hydra.Core.Messages.CommonMessages.Notifications;
-using Hydra.EventSourcing;
-using Hydra.Order.Application.Commands;
-using Hydra.Order.Application.Events;
-using Hydra.Order.Application.Queries;
+using Hydra.Order.API.Application.Commands.CatalogCommands;
+using Hydra.Order.API.Application.Commands.Handlers;
+using Hydra.Order.API.Application.Commands.OrderCommands;
+using Hydra.Order.API.Application.Commands.VoucherCommands;
+using Hydra.Order.API.Application.Events.CatalogEvents;
+using Hydra.Order.API.Application.Events.Handlers;
+using Hydra.Order.API.Application.Events.OrderEvents;
+using Hydra.Order.API.Application.Events.VoucherEvents;
 using Hydra.Order.Data;
 using Hydra.Order.Domain.Repository;
+using Hydra.WebAPI.Core.User;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hydra.Order.API.Setup
@@ -18,38 +23,44 @@ namespace Hydra.Order.API.Setup
     {
         public static void RegisterServices(this IServiceCollection services)
         {
-            
-            //Mediator
+            //API
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IAspNetUser, AspNetUser>();
+
+            //Application
             services.AddScoped<IMediatorHandler, MediatorHandler>();
-
-            //Repository
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<OrderContext>();
-
 
             //Notifications
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
-  
-          
 
-            //Commands
-            services.AddScoped<IRequestHandler<AddOrderItemCommand, bool>, OrderCommandHandler>();
-            services.AddScoped<IRequestHandler<UpdateOrderItemCommand, bool>, OrderCommandHandler>();
-            services.AddScoped<IRequestHandler<RemoveOrderItemCommand, bool>, OrderCommandHandler>();
-            services.AddScoped<IRequestHandler<ApplyVoucherOrderCommand, bool>, OrderCommandHandler>();
-            
+            //Data
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<OrderContext>();
 
-            //Queries
-            services.AddScoped<IOrderQueries, OrderQueries>(); 
+            //Commands Order
+            services.AddScoped<IRequestHandler<CreateOrderCommand, ValidationResult>, OrderCommandHandler>();
+            services.AddScoped<IRequestHandler<ApplyVoucherOrderCommand, ValidationResult>, OrderCommandHandler>();
+            services.AddScoped<IRequestHandler<StartOrderCommand, ValidationResult>, OrderCommandHandler>();
 
-            //Events
+            //Commands - Voucher
+            services.AddScoped<IRequestHandler<UpdateVoucherUsedCommand, ValidationResult>, VoucherCommandHandler>();
+
+            //Commmands - Catalog
+            services.AddScoped<IRequestHandler<ProductValidationInStockCommand, ValidationResult>, CatalogCommandHandler>();
+
+            //Events - Order
             services.AddScoped<INotificationHandler<OrderDraftStartedEvent>, OrderEventHandler>();
-            services.AddScoped<INotificationHandler<OrderItemAddedEvent>, OrderEventHandler>();
-            services.AddScoped<INotificationHandler<OrderUpdatedEvent>, OrderEventHandler>();
+            services.AddScoped<INotificationHandler<OrderStartedEvent>, OrderEventHandler>();
 
-            //Event sourcing
-            services.AddSingleton<IEventStoreService, EventStoreService>();
-            services.AddSingleton<IEventSourcingRepository, EventSourcingRepository>();
+            //Events - Voucher
+            services.AddScoped<INotificationHandler<OrderWithoutVoucherVerifiedEvent>, VoucherEventHandler>();
+            services.AddScoped<INotificationHandler<VoucherRefusedEvent>, VoucherEventHandler>();
+            services.AddScoped<INotificationHandler<VoucherAppliedEvent>, VoucherEventHandler>();
+            services.AddScoped<INotificationHandler<UpdateVoucherUsedFailedEvent>, VoucherEventHandler>();
+
+            //Events - catalog
+            services.AddScoped<INotificationHandler<ProductOutOfStockCheckedEvent>, CatalogEventHandler>();
+            services.AddScoped<INotificationHandler<ProductInStockCheckedEvent>, CatalogEventHandler>();
         }
     }
 }

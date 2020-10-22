@@ -6,6 +6,7 @@ using Hydra.Core.Communication.Mediator;
 using Hydra.Core.Data;
 using Hydra.Core.Extensions;
 using Hydra.Core.Messages;
+using Hydra.Order.Domain.Vouchers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hydra.Order.Data
@@ -19,9 +20,9 @@ namespace Hydra.Order.Data
             _mediatorHandler = mediatorHandler;
         }
 
-        public DbSet<Domain.Models.Order> Order {get;set;}
-        public DbSet<Domain.Models.OrderItem> OrderItem {get;set;}
-        public DbSet<Domain.Models.Voucher> Vourcher {get;set;}
+        public DbSet<Domain.Orders.Order> Order {get;set;}
+        public DbSet<Domain.Orders.OrderItem> OrderItem {get;set;}
+        public DbSet<Voucher> Vourcher {get;set;}
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -63,7 +64,7 @@ namespace Hydra.Order.Data
 
             var success = await base.SaveChangesAsync() > 0;
             if(success)
-                await _mediatorHandler.PublishEvents(this);
+                await _mediatorHandler.PublishEvents(this); //Call the mediator extension to publish the events
 
             return success;
         }

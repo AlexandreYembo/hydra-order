@@ -5,22 +5,22 @@ using Hydra.Core.Data;
 
 namespace Hydra.Order.Domain.Repository
 {
-    public interface IOrderRepository : IRepository<Models.Order>
+    public interface IOrderRepository : IRepository<Orders.Order>
     {
-        Task<Models.Order> GetOrderById(Guid id);
-        Task<IEnumerable<Models.Order>> GetListOfOrderByClientId(Guid customerId);
-        Task<Models.Order> GetOrderDraftByCustomerId(Guid customerId);
-        void AddOrder(Models.Order order);
-        void UpdateOrder(Models.Order order);
+        Task<Orders.Order> GetOrderById(Guid id);
+        Task<IEnumerable<Orders.Order>> GetListOfOrderByCustomerId(Guid customerId);
+        Task<Orders.Order> GetOrderDraftByCustomerId(Guid customerId);
+        void AddOrder(Orders.Order order);
+        void UpdateOrder(Orders.Order order);
 
-        Task<Models.OrderItem> GetOrderItemById(Guid id);
+        Task<Orders.OrderItem> GetOrderItemById(Guid id);
 
-        Task<Models.OrderItem> GetOrderItemByOrder(Guid orderId, Guid productId);
+        Task<Orders.OrderItem> GetOrderItemByOrder(Guid orderId, Guid productId);
 
-        void AddOrderItem(Models.OrderItem orderItem);
+        void AddOrderItem(Orders.OrderItem orderItem);
 
-        void UpdateOrderItem(Models.OrderItem orderItem);
+        void UpdateOrderItem(Orders.OrderItem orderItem);
 
-        void RemoveItem(Models.OrderItem orderItem);
+        void RemoveItem(Orders.OrderItem orderItem);
     }
 }

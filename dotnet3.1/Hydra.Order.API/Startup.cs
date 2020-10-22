@@ -1,5 +1,6 @@
 using Hydra.Order.API.Setup;
 using Hydra.Order.Data;
+using Hydra.WebAPI.Core.Setups;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,10 +13,10 @@ namespace Hydra.Order.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+       public Startup(IHostEnvironment hostEnvironment)
         {
-            Configuration = configuration;
-        }
+           Configuration = HostEnvironmentConfiguration.AddHostEnvironment(hostEnvironment);
+    }
  
         public IConfiguration Configuration { get; }
 
@@ -25,7 +26,7 @@ namespace Hydra.Order.API
             services.AddControllers();
             
             // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen();
+            services.AddSwaggerConfiguration();
 
             services.AddDbContext<OrderContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -33,6 +34,8 @@ namespace Hydra.Order.API
             services.AddMediatR(typeof(Startup));
 
             services.RegisterServices();
+            
+            services.AddMessageBusConfiguration(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,16 +48,8 @@ namespace Hydra.Order.API
 
             app.UseHttpsRedirection();
             
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hydra Order API V1");
-            });
-
+            app.UseSwaggerConfiguration();
+            
             app.UseRouting();
 
             app.UseAuthorization();

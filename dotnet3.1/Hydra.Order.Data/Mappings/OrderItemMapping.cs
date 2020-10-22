@@ -1,10 +1,10 @@
-using Hydra.Order.Domain.Models;
+using Hydra.Order.Domain.Orders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Hydra.Order.Data.Mappings
 {
-    public class OrderItemMapping : IEntityTypeConfiguration<Domain.Models.OrderItem>
+    public class OrderItemMapping : IEntityTypeConfiguration<OrderItem>
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
