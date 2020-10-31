@@ -8,6 +8,7 @@ using Hydra.Core.Messages;
 using Hydra.Core.Messages.CommonMessages.Notifications;
 using Hydra.Order.API.Application.Commands.OrderCommands;
 using Hydra.Order.API.Application.DTO;
+using Hydra.Order.API.Application.Events.OrderEvents;
 using Hydra.Order.Domain.Enumerables;
 using Hydra.Order.Domain.Orders;
 using Hydra.Order.Domain.Repository;
@@ -43,6 +44,8 @@ namespace Hydra.Order.API.Application.Commands.Handlers
             ApplyVoucher(message, order);
 
             order.CalculateOrderAmount();
+
+            order.AddEvent(new OrderStartedEvent(order.Id, order.CustomerId));
 
             _orderRepository.AddOrder(order);
             return await Save(_orderRepository.UnitOfWork);
