@@ -9,12 +9,11 @@ namespace Hydra.Order.Domain.Vouchers
 {
     public class Voucher : Entity, IAggregateRoot
     {
-        public Voucher(string code, decimal? discountPercentage, decimal? discountAmount, int quantity,
+        public Voucher(string code, decimal? discount, int quantity,
             VoucherType voucherType,  DateTime expirationDate, bool active, bool isUsed)
         {
             Code = code;
-            DiscountPercentage = discountPercentage;
-            DiscountAmount = discountAmount;
+            Discount = discount;
             Quantity = quantity;
             VoucherType = voucherType;
             ExpirationDate = expirationDate;
@@ -23,8 +22,7 @@ namespace Hydra.Order.Domain.Vouchers
         }
 
         public string Code { get; private set; }
-        public decimal? DiscountPercentage { get; private set; }
-        public decimal? DiscountAmount { get; private set; }
+        public decimal? Discount { get; private set; }
         public VoucherType VoucherType { get; private set; }
         public int Quantity { get; private set; }
         public DateTime CreatedDate { get; private set; }

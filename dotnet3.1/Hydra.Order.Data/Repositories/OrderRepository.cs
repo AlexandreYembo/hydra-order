@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Hydra.Core.Data;
@@ -37,7 +38,9 @@ namespace Hydra.Catalog.Data.Repositories
 
         public async Task<Order.Domain.Orders.Order> GetOrderById(Guid id)
         {
-            return await _context.Order.AsNoTracking().FirstOrDefaultAsync(f => f.Id == id);
+            return await _context.Order.AsNoTracking()
+                                       .Include(i => i.OrderItems)
+                                       .FirstOrDefaultAsync(f => f.Id == id);
         }
 
         public async Task<Order.Domain.Orders.Order> GetOrderDraftByCustomerId(Guid customerId)
@@ -87,9 +90,12 @@ namespace Hydra.Catalog.Data.Repositories
             _context.OrderItem.Update(orderItem);
         }
 
-         public void Dispose()
+        public DbConnection GetConnection() => _context.Database.GetDbConnection();
+
+        public void Dispose()
         {
            _context?.Dispose();
         }
+        
     }
 }

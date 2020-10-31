@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Order.Domain", "Hydra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Core.MessageBus", "..\hydra-core\dotnet3.1\Hydra.Core.MessageBus\Hydra.Core.MessageBus.csproj", "{62DF90A5-2FD8-410F-9614-E027EB0FF140}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydra.Core.Integration", "..\hydra-core\dotnet3.1\Hydra.Core.Integration\Hydra.Core.Integration.csproj", "{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,8 +104,21 @@ Global
 		{62DF90A5-2FD8-410F-9614-E027EB0FF140}.Release|x64.Build.0 = Release|Any CPU
 		{62DF90A5-2FD8-410F-9614-E027EB0FF140}.Release|x86.ActiveCfg = Release|Any CPU
 		{62DF90A5-2FD8-410F-9614-E027EB0FF140}.Release|x86.Build.0 = Release|Any CPU
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}.Debug|x64.Build.0 = Debug|Any CPU
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}.Debug|x86.Build.0 = Debug|Any CPU
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}.Release|x64.ActiveCfg = Release|Any CPU
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}.Release|x64.Build.0 = Release|Any CPU
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}.Release|x86.ActiveCfg = Release|Any CPU
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{D3BB1EF7-3C0A-4708-816F-6C2CCBBD400D} = {8A23DEA0-11ED-11EB-863D-27275C3B518C}
 		{62DF90A5-2FD8-410F-9614-E027EB0FF140} = {8A23DEA0-11ED-11EB-863D-27275C3B518C}
 		{3E576D28-A5EC-416C-AEDD-E2101CD949AC} = {8A23DEA0-11ED-11EB-863D-27275C3B518C}
 		{6D294B16-46AE-4A1F-9CCC-0005992019EC} = {8A23DEA0-11ED-11EB-863D-27275C3B518C}

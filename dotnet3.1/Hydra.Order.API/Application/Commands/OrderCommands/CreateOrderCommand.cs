@@ -9,43 +9,20 @@ namespace Hydra.Order.API.Application.Commands.OrderCommands
 {
     public class CreateOrderCommand : Command
     {
-        //Order
-        public CreateOrderCommand(Guid customerId, decimal totalPrice,
-        List<OrderItemDTO> items, 
-        string voucherCode, bool hasVoucher, decimal discount, AddressDTO address, 
-        string cardNumber, string cardHolderName, string cardExpiration, string cardCvv)
-        {
-            this.CustomerId = customerId;
-            this.TotalPrice = totalPrice;
-            this.VoucherCode = voucherCode;
-            this.HasVoucher = hasVoucher;
-            this.Discount = discount;
-            this.Address = address;
-            this.CardNumber = cardNumber;
-            this.CardHolderName = cardHolderName;
-            this.CardExpiration = cardExpiration;
-            this.CardCvv = cardCvv;
-            this.Items = items;
-
-        }
         public Guid CustomerId { get; set; }
         public decimal TotalPrice { get; set; }
         public List<OrderItemDTO> Items { get; set; }
 
         //Voucher
-        public string VoucherCode { get; set; }
+        public VoucherDTO Voucher { get; set; }
         public bool HasVoucher { get; set; }
-        public decimal Discount { get; set; }
-
+      
         //Address
         public AddressDTO Address { get; set; }
 
-        //Payment - CARD
-        public string CardNumber { get; set; }
-        public string CardHolderName { get; set; }
-        public string CardExpiration { get; set; }
-        public string CardCvv { get; set; }
+        public PaymentDTO Payment {get; set;}
 
+        //Payment - CARD
         public override bool IsValid()
         {
             ValidationResult = new CreateOrderValidation().Validate(this);
@@ -69,20 +46,26 @@ namespace Hydra.Order.API.Application.Commands.OrderCommands
                 .GreaterThan(0)
                 .WithMessage("Invalid Price");
 
-            RuleFor(c => c.CardNumber)
+            RuleFor(c => c.Payment.CardNumber)
+                .NotNull()
+                .WithMessage("Card number is required")
                 .CreditCard()
                 .WithMessage("Invalid Card number");
 
-            RuleFor(c => c.CardHolderName)
+            RuleFor(c => c.Payment.CardHolderName)
                 .NotNull()
                 .WithMessage("Card holder name is required");
 
-            RuleFor(c => c.CardCvv.Length)
+            RuleFor(c => c.Payment.CardCvv)
+                .NotNull()
+                .WithMessage("Cvv is required");
+
+            RuleFor(c => c.Payment.CardCvv.Length)
                 .GreaterThan(2)
                 .LessThan(5)
                 .WithMessage("CVV should have 3 or 4 numbers");
 
-            RuleFor(c => c.CardExpiration)
+            RuleFor(c => c.Payment.CardExpiration)
                 .NotNull()
                 .WithMessage("Expiration date of the card is required");
         }

@@ -36,8 +36,8 @@ namespace Hydra.Order.API.Application.DTO
             foreach (var item in order.OrderItems)
             {
                 orderDTO.Items.Add(new OrderItemDTO{
-                    ProductName = item.ProductName,
-                    ProductImage = item.Image,
+                    Name = item.ProductName,
+                    Image = item.Image,
                     Qty = item.Qty,
                     ProductId = item.ProductId,
                     Price = item.Price,

@@ -237,7 +237,7 @@ namespace Hydra.Order.Domain.Tests
 
             var voucher = new Voucher("ALEX-10", null, 15, 1, VoucherType.Value, DateTime.Now.AddDays(15), true, false);
 
-            var discountApplied = order.Amount - voucher.DiscountAmount;
+            var discountApplied = order.Amount - voucher.Discount;
             //Act
             var result = order.ApplyVoucher(voucher);
 
@@ -259,7 +259,7 @@ namespace Hydra.Order.Domain.Tests
 
             var voucher = new Voucher("ALEX-10", 15, null, 1, VoucherType.Percentage, DateTime.Now.AddDays(15), true, false);
 
-            var discountApplied = (order.Amount * voucher.DiscountPercentage) / 100;
+            var discountApplied = (order.Amount * voucher.Discount) / 100;
 
             var amountWithDiscount = order.Amount - discountApplied;
             //Act
@@ -307,7 +307,7 @@ namespace Hydra.Order.Domain.Tests
             order.AddItem(orderItem2);
         
             //Assert
-            var expectedAmount = order.OrderItems.Sum(s => s.Qty * s.Price) - voucher.DiscountAmount;
+            var expectedAmount = order.OrderItems.Sum(s => s.Qty * s.Price) - voucher.Discount;
 
             Assert.Equal(expectedAmount, order.Amount);
         }

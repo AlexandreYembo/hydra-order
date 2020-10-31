@@ -6,11 +6,13 @@ namespace Hydra.Order.API.Application.Events.OrderEvents
 {
     public class OrderStartedEvent : Event
     {
-        public List<Guid> Products { get; set; }
+        public Guid OrderId { get; set; }
+        public Guid CustomerId { get; set; }
 
-        public OrderStartedEvent(List<Guid> products)
+        public OrderStartedEvent(Guid orderId, Guid customerId)
         {
-            Products = products;
+            OrderId = orderId;
+            CustomerId = customerId;
         }
     }
 }

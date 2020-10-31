@@ -1,5 +1,6 @@
 using Hydra.Order.API.Setup;
 using Hydra.Order.Data;
+using Hydra.WebAPI.Core.Identity;
 using Hydra.WebAPI.Core.Setups;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -23,14 +24,11 @@ namespace Hydra.Order.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            
-            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddApiConfiguration(Configuration);
+            services.AddJwtConfiguration(Configuration);
             services.AddSwaggerConfiguration();
-
-            services.AddDbContext<OrderContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.RegisterServices();
+           
             services.AddMediatR(typeof(Startup));
 
             services.RegisterServices();
@@ -41,23 +39,8 @@ namespace Hydra.Order.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseHttpsRedirection();
-            
             app.UseSwaggerConfiguration();
-            
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseApiConfiguration(env);
         }
     }
 }

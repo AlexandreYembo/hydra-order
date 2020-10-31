@@ -89,20 +89,9 @@ namespace Hydra.Order.Domain.Orders
             decimal discount = 0;
             var price = Amount;
 
-            if(Voucher.VoucherType == VoucherType.Value)
-            {
-                if(Voucher.DiscountAmount.HasValue){
-                    discount = Voucher.DiscountAmount.Value;
-                    price -= discount;
-                }
-            }
-            else
-            {
-                if(Voucher.DiscountPercentage.HasValue)
-                {
-                    discount = (Amount * Voucher.DiscountPercentage).Value / 100;
-                    price -= discount;
-                }
+            if(Voucher.Discount.HasValue){
+                discount = Voucher.VoucherType == VoucherType.Percentage  ? (Amount * Voucher.Discount).Value / 100 : Voucher.Discount.Value;
+                price -= discount;
             }
 
             Amount = price < 0 ? 0 : price;

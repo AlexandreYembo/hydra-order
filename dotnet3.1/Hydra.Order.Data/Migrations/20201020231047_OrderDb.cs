@@ -17,8 +17,7 @@ namespace Hydra.Order.Data.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Code = table.Column<string>(type: "varchar(100)", nullable: false),
-                    DiscountPercentage = table.Column<decimal>(nullable: true),
-                    DiscountAmount = table.Column<decimal>(nullable: true),
+                    Discount = table.Column<decimal>(nullable: true),
                     VoucherType = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),

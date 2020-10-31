@@ -20,6 +20,11 @@ namespace Hydra.Order.Data
             _mediatorHandler = mediatorHandler;
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
+
         public DbSet<Domain.Orders.Order> Order {get;set;}
         public DbSet<Domain.Orders.OrderItem> OrderItem {get;set;}
         public DbSet<Voucher> Vourcher {get;set;}

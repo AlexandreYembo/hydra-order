@@ -1,8 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Hydra.Core.Communication.Mediator;
-using Hydra.Order.API.Application.Commands.CatalogCommands;
-using Hydra.Order.API.Application.Commands.VoucherCommands;
+using Hydra.Core.Integration.Messages.OrderMessages;
+using Hydra.Core.MessageBus;
 using Hydra.Order.API.Application.Events.OrderEvents;
 using MediatR;
 
@@ -12,21 +11,33 @@ namespace Hydra.Order.API.Application.Events.Handlers
     ///  All event that will be manipulated
     /// </summary>
     public class OrderEventHandler :
-                        INotificationHandler<OrderDraftStartedEvent>,
                         INotificationHandler<OrderStartedEvent>
+                        // INotificationHandler<OrderDraftStartedEvent>,
+                        // INotificationHandler<OrderStartedEvent>
     {
-        private readonly IMediatorHandler _mediatorHandler;
+        private readonly IMessageBus _messageBus;
 
-        public OrderEventHandler(IMediatorHandler mediatorHandler)
+        public OrderEventHandler(IMessageBus messageBus)
         {
-            _mediatorHandler = mediatorHandler;
+            _messageBus = messageBus;
         }
 
-        public async Task Handle(OrderDraftStartedEvent message, CancellationToken cancellationToken) =>
-             await _mediatorHandler.SendCommand(new ApplyVoucherOrderCommand(message.VoucherCode, message.CustomerId, message.OrderId, message.VoucherApplied));
- 
+        /// <summary>
+        /// Call the integration with the Queue
+        /// </summary>
+        /// <param name="notification"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task Handle(OrderStartedEvent message, CancellationToken cancellationToken) =>
-            await _mediatorHandler.SendCommand(new ProductValidationInStockCommand(message.AggregateId, message.Products));
+            await _messageBus.PublishAsync(new OrderStartedIntegrationEvent(message.CustomerId, message.OrderId));
 
+
+        // public async Task Handle(OrderStartedEvent message, CancellationToken cancellationToken) =>
+        //     await _mediatorHandler.SendCommand(new ProductValidationInStockCommand(message.AggregateId, message.Products));
+
+        // public Task Handle(OrderDraftStartedEvent notification, CancellationToken cancellationToken)
+        // {
+        //     throw new System.NotImplementedException();
+        // }
     }
 }

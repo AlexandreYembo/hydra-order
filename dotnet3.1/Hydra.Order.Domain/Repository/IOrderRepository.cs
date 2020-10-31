@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Threading.Tasks;
 using Hydra.Core.Data;
 
@@ -22,5 +23,7 @@ namespace Hydra.Order.Domain.Repository
         void UpdateOrderItem(Orders.OrderItem orderItem);
 
         void RemoveItem(Orders.OrderItem orderItem);
+
+        DbConnection GetConnection();
     }
 }
