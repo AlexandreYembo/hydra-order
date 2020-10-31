@@ -4,6 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation.Results;
 using Hydra.Core.Communication.Mediator;
+using Hydra.Core.Integration.Messages;
+using Hydra.Core.Integration.Messages.OrderMessages;
+using Hydra.Core.MessageBus;
 using Hydra.Core.Messages;
 using Hydra.Core.Messages.CommonMessages.Notifications;
 using Hydra.Order.API.Application.Commands.OrderCommands;
@@ -25,11 +28,13 @@ namespace Hydra.Order.API.Application.Commands.Handlers
     {
         private readonly IMediatorHandler _mediatorHandler;
         private readonly IOrderRepository _orderRepository;
+        private readonly IMessageBus _messageBus;
 
-        public OrderCommandHandler(IMediatorHandler mediatorHandler, IOrderRepository orderRepository)
+        public OrderCommandHandler(IMediatorHandler mediatorHandler, IOrderRepository orderRepository, IMessageBus messageBus)
         {
             _mediatorHandler = mediatorHandler;
             _orderRepository = orderRepository;
+            _messageBus = messageBus;
         }
 
         public async Task<ValidationResult> Handle(CreateOrderCommand message, CancellationToken cancellationToken)
@@ -45,12 +50,13 @@ namespace Hydra.Order.API.Application.Commands.Handlers
 
             order.CalculateOrderAmount();
 
+            if(!await ProcessPayment(order, message.Payment)) return ValidationResult;
+
             order.AddEvent(new OrderStartedEvent(order.Id, order.CustomerId));
 
             _orderRepository.AddOrder(order);
             return await Save(_orderRepository.UnitOfWork);
         }
-
 
         private bool ApplyVoucher(CreateOrderCommand message, Domain.Orders.Order order)
         {
@@ -68,35 +74,31 @@ namespace Hydra.Order.API.Application.Commands.Handlers
             return true;
         }
 
-//         public async Task<ValidationResult> Handle(StartOrderCommand message, CancellationToken cancellationToken)
-//         {
-//             var order = await _orderRepository.GetOrderById(message.OrderId);
-//             order.StartOrder();
+        public async Task<bool> ProcessPayment(Domain.Orders.Order order, PaymentDTO payment)
+        {
+            var orderRequest = new OrderInProcessingIntegrationEvent()
+            {
+                OrderId = order.Id,
+                CustomerId = order.CustomerId,
+                Price = order.Amount,
+                PaymentType = 1, //TODO: Implement the proper type in the future
+                CardName = payment.CardHolderName,
+                CardNumber = payment.CardNumber,
+                Expiration = payment.CardExpiration,
+                CVV = payment.CardCvv
+            };
             
-//             _orderRepository.UpdateOrder(order);
+            var response = await _messageBus.RequestAsync<OrderInProcessingIntegrationEvent, ResponseMessage>(orderRequest);
 
-//             var result = await Save(_orderRepository.UnitOfWork);
+            if(response.ValidResult.IsValid) return true;
 
-//             if(result.IsValid)
-//                 await _mediatorHandler.PublishEvent(new OrderStartedEvent(order.Id, 
-//                                                         order.OrderItems.Select(s => s.Id).ToList()));
-//             return ValidationResult;
-// //            order.SetAddress();
+            foreach (var error in response.ValidResult.Errors)
+            {
+                AddError(error.ErrorMessage);
+            }
 
-//         }
-
-//         public async Task<ValidationResult> Handle(ProcessingOrderCommand message, CancellationToken cancellationToken)
-//         {
-//             var order = await _orderRepository.GetOrderById(message.AggregateId);
-//             order.ProcessingOrder();
-
-//             _orderRepository.UpdateOrder(order);
-
-//             return await Save(_orderRepository.UnitOfWork);
-//         }
-
-        // private async Task NotifyOrderNotFound() => 
-        //     await _mediatorHandler.PublishNotification(new DomainNotification("Order", "Order not found"));
+            return false;
+        }
 
 
         private Domain.Orders.Order OrderMap(CreateOrderCommand message)
