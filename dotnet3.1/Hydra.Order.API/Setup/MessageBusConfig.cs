@@ -1,5 +1,6 @@
 using Hydra.Core.Extensions;
 using Hydra.Core.MessageBus;
+using Hydra.Order.API.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,7 +15,8 @@ namespace Hydra.Order.API.Setup
             //Or you injection should be singleton, but this approach is not good for the application.
             //AddHostedService is a single and works in the NET Pipeline.
 
-            services.AddMessageBus(configuration.GetMessageQueueConnection("MessageBus"));
+            services.AddMessageBus(configuration.GetMessageQueueConnection("MessageBus"))
+                        .AddHostedService<OrderOrchestratorIntegrationHandler>();
         }
     }
 }

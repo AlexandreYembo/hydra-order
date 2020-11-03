@@ -9,5 +9,6 @@ namespace Hydra.Order.API.Application.Queries
     {
         Task<OrderDTO> GetLatestOrder(Guid customerId);
         Task<IEnumerable<OrderDTO>> GetOrdersByCustomerId(Guid customerId);
+        Task<OrderDTO> GetAuthorizedOrders();
     }
 }

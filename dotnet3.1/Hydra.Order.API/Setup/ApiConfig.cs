@@ -11,7 +11,7 @@ namespace Hydra.Order.API.Setup
 {
     public static class ApiConfig
     {
-         public static void AddApiConfiguration(this IServiceCollection services, IConfiguration configuration)
+        public static void AddApiConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<OrderContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));

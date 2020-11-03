@@ -17,6 +17,29 @@ namespace Hydra.Order.API.Application.Queries
             _orderRepository = orderRepository;
         }
 
+        public async Task<OrderDTO> GetAuthorizedOrders()
+        {
+             //Temporary, using dapper
+            const string sql = @"SELECT TOP 1
+                                O.Id as 'OrderId', O.Id, O.CustomerId,
+                                OI.ID AS 'OrderItemId', OI.ID, OI.ProductId, OI.Qty
+                                FROM ORDERS O 
+                                INNER JOIN ORDERITEMS OI ON O.ID = OI.ORDERID 
+                                WHERE O.ORDERSTATUS = 1 
+                                ORDER BY O.CREATEDDATE DESC";
+            
+            var order = await _orderRepository.GetConnection().QueryAsync<OrderDTO, OrderItemDTO, OrderDTO>(sql,
+            (o, oi) => 
+            {
+                o.Items = new List<OrderItemDTO>();
+                o.Items.Add(oi);
+
+                return o;
+            }, splitOn:"OrderId, OrderItemId" );
+
+            return order.FirstOrDefault();
+        }
+
         public async Task<OrderDTO> GetLatestOrder(Guid customerId)
         {
             //Temporary, using dapper

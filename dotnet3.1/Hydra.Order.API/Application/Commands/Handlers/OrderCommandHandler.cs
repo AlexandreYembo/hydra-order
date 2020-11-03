@@ -114,7 +114,7 @@ namespace Hydra.Order.API.Application.Commands.Handlers
             };
 
             var order = new Domain.Orders.Order(message.CustomerId, message.TotalPrice, message.Items.Select(OrderItemDTO.Map).ToList(),
-                            message.HasVoucher, message.Voucher.Discount);
+                            message.HasVoucher, message.Voucher != null ? message.Voucher.Discount: 0);
                             
             order.SetAddress(address);
             order.StartOrder();

@@ -10,6 +10,7 @@ namespace Hydra.Order.API.Application.DTO
         public decimal Amount { get; set; }
         public DateTime CreatedDate { get; set; }
         public int Status { get; set; }
+        public Guid CustomerId { get; set; }
 
         public decimal Discount { get; set; }
 
