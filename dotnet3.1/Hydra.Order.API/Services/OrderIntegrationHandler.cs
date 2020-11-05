@@ -23,7 +23,8 @@ namespace Hydra.Order.API.Services
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            throw new System.NotImplementedException();
+            SetSubscribers();
+            return Task.CompletedTask;
         }
 
         private void SetSubscribers()

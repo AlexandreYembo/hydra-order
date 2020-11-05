@@ -20,24 +20,28 @@ namespace Hydra.Order.API.Application.Queries
         public async Task<OrderDTO> GetAuthorizedOrders()
         {
              //Temporary, using dapper
-            const string sql = @"SELECT TOP 1
-                                O.Id as 'OrderId', O.Id, O.CustomerId,
+            const string sql = @"SELECT
+                                O.ID as 'OrderId', O.ID, O.CustomerId,
                                 OI.ID AS 'OrderItemId', OI.ID, OI.ProductId, OI.Qty
                                 FROM ORDERS O 
                                 INNER JOIN ORDERITEMS OI ON O.ID = OI.ORDERID 
                                 WHERE O.ORDERSTATUS = 1 
-                                ORDER BY O.CREATEDDATE DESC";
+                                ORDER BY O.CREATEDDATE";
             
+            var lookup = new Dictionary<Guid, OrderDTO>();
             var order = await _orderRepository.GetConnection().QueryAsync<OrderDTO, OrderItemDTO, OrderDTO>(sql,
             (o, oi) => 
             {
-                o.Items = new List<OrderItemDTO>();
-                o.Items.Add(oi);
+                if (!lookup.TryGetValue(o.Id, out var orderDTO))
+                        lookup.Add(o.Id, orderDTO = o);
+
+                orderDTO.Items ??= new List<OrderItemDTO>();
+                orderDTO.Items.Add(oi);
 
                 return o;
-            }, splitOn:"OrderId, OrderItemId" );
+            }, splitOn: "OrderId, OrderItemId" );
 
-            return order.FirstOrDefault();
+            return lookup.Values.OrderBy(p=>p.CreatedDate).FirstOrDefault();
         }
 
         public async Task<OrderDTO> GetLatestOrder(Guid customerId)

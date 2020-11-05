@@ -16,7 +16,8 @@ namespace Hydra.Order.API.Setup
             //AddHostedService is a single and works in the NET Pipeline.
 
             services.AddMessageBus(configuration.GetMessageQueueConnection("MessageBus"))
-                        .AddHostedService<OrderOrchestratorIntegrationHandler>();
+                        .AddHostedService<OrderOrchestratorIntegrationHandler>()
+                        .AddHostedService<OrderIntegrationHandler>();
         }
     }
 }
