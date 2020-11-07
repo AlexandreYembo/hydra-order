@@ -14,10 +14,10 @@ namespace Hydra.Order.API
 {
     public class Startup
     {
-       public Startup(IHostEnvironment hostEnvironment)
+        public Startup(IHostEnvironment hostEnvironment)
         {
            Configuration = HostEnvironmentConfiguration.AddHostEnvironment(hostEnvironment);
-    }
+        }
  
         public IConfiguration Configuration { get; }
 
@@ -30,9 +30,6 @@ namespace Hydra.Order.API
             services.RegisterServices();
            
             services.AddMediatR(typeof(Startup));
-
-            services.RegisterServices();
-            
             services.AddMessageBusConfiguration(Configuration);
         }
 
